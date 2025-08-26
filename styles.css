@@ -1,0 +1,626 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.scrapbook-container {
+    position: relative;
+    width: 95vw;
+    max-width: 1100px;
+    height: 85vh;
+    max-height: 700px;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: rgba(30, 30, 30, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    backface-visibility: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+.page.flipped {
+    transform: rotateY(-180deg);
+}
+
+.page.hidden {
+    transform: translateX(100%) rotateY(-180deg);
+}
+
+body {
+    background-image: url('photos/iloveyou-background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: cursive;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+
+.black-card {
+    position: absolute;
+    inset: 0; /* stretch across entire cover page */
+    width:100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6); /* optional transparency */
+    border-radius: 20px;
+    z-index: 1; /* behind the text */
+}
+
+.cover-page {
+    position: relative;
+    flex-direction: column;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.cover-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%; /* Add this to ensure full width */
+    z-index: 2;
+    text-align: center; /* Add this for extra centering */
+}
+
+.cover-page h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #f8f8f8;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cover-page .subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: #e0e0e0;
+    margin-bottom: 30px;
+}
+
+.hearts {
+    display: flex;
+    justify-content: center; /* centers hearts horizontally */
+    gap: 10px; /* space between hearts */
+    z-index: 2; /* stays above black-card */
+    margin: 10px 0; /* spacing from other text */
+}
+
+.heart {
+    animation: pulse 2s infinite ease-in-out;
+    color: #ff6b6b;
+    font-size: 2rem;
+}
+
+.heart:nth-child(2) {
+    animation-delay: 0.5s;
+    color: #ff8e8e;
+}
+
+.heart:nth-child(3) {
+    animation-delay: 1s;
+    color: #ffb3b3;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+.cover-page .date {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #d0d0d0;
+    margin-top: 20px;
+}
+
+.cover-page h1,
+.cover-page .subtitle,
+.cover-page .heart,
+.cover-page .date{
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+
+/* Calendar Page */
+.calendar-page {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Change from center to space-between */
+    height: 100%;
+    text-align: center;
+    gap: 25px; /* Increase gap for more spacing */
+}
+
+.calendar-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    margin-bottom: 15px; /* Add margin bottom */
+    padding-bottom: 0;
+    color: #f8f8f8;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 15px; /* Add margin bottom */
+    margin-top: 10px; /* Add margin top */
+    background: rgba(50, 50, 50, 0.3);
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.calendar-day {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.calendar-day.special {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    color: white;
+    position: relative;
+    animation: heartbeat 1.5s infinite ease-in-out;
+}
+
+.calendar-day.special::after {
+    content: '♥';
+    position: absolute;
+    font-size: 1.2rem;
+    color: white;
+    top: -5px;
+    right: -5px;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.calendar-note {
+    background: rgba(60, 60, 60, 0.4);
+    padding: 25px; /* Increase padding */
+    border-radius: 15px;
+    text-align: center;
+    width: 90%; /* Use more width */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1rem; /* Slightly larger font */
+    line-height: 1.6; /* Better line spacing */
+    color: #e0e0e0;
+    margin-top: 10px; /* Add margin top */
+    min-height: 120px; /* Ensure minimum height */
+    margin: 0 auto;
+    overflow-y: auto;
+    height: 300px;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+ /* Polaroid Pages */
+ .polaroid-page {
+    padding: 15px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.polaroid-page h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #f8f8f8;
+    flex-shrink: 0;
+}
+
+.polaroid-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-rows: auto auto; /* Two rows that size to content */
+    gap: 30px; /* Space between polaroids */
+    padding: 20px 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-grow: 1;
+    max-height: calc(100vh - 160px);
+    scroll-behavior: smooth;
+    justify-items: center; /* Center polaroids in their grid cells */
+    align-items: start; /* Align to top of grid cells */
+}
+
+
+.polaroid:nth-child(1) {
+    transform: rotate(-1deg);
+}
+
+.polaroid:nth-child(2) {
+    transform: rotate(1deg);
+}
+
+.polaroid:nth-child(3) {
+    transform: rotate(0.5deg);
+}
+
+.polaroid:nth-child(4) {
+    transform: rotate(-0.5deg);
+}
+
+.polaroid {
+    background: white;
+    padding: 18px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 300px; /* Slightly smaller to fit 2 per row */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+}
+
+.polaroid:hover {
+    transform: scale(1.02) rotate(0deg) !important;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.6);
+}
+
+.polaroid-photo {
+    width: 100%;
+    background: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+}
+
+.polaroid-photo img {
+    max-width: 100%;
+    max-height: 400px; /* Reasonable max height to prevent extremely tall photos */
+    width: auto; /* Allow width to adjust naturally */
+    height: auto; /* Allow height to adjust naturally */
+    display: block;
+    border-radius: 6px;
+    object-fit: contain; /* Contain the entire image without cropping */
+    object-position: center;
+
+}
+
+
+/* For portrait images */
+.polaroid-photo img[src*="portrait"], 
+.polaroid-photo img[data-orientation="portrait"] {
+    max-height: 450px;
+    min-height: 300px;
+}
+
+/* For landscape images */
+.polaroid-photo img[src*="landscape"], 
+.polaroid-photo img[data-orientation="landscape"] {
+    max-height: 350px;
+    min-height: 250px;
+}
+
+/* Polaroid caption */
+.polaroid-caption {
+    text-align: center;
+    font-size: 1rem;
+    color: #333;
+    font-family: 'Comic Sans MS', cursive;
+    font-weight: bold;
+    padding: 8px 0;
+    background: linear-gradient(45deg, #333);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 768px) {
+    .polaroid {
+        width: 90%;
+        max-width: 350px;
+        padding: 15px;
+    }
+    
+    .polaroid-grid {
+        max-height: calc(100vh - 140px);
+        gap: 20px;
+    }
+    
+    .polaroid:nth-child(odd) {
+        margin-left: 5px;
+    }
+    
+    .polaroid:nth-child(even) {
+        margin-right: 5px;
+    }
+}
+
+/* Special Pages */
+.special-page {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    width: 100%; /* Ensure full width */
+}
+
+.special-page h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    margin-bottom: 30px; /* Increase margin for better spacing */
+    color: #f8f8f8;
+    flex-shrink: 0;
+}
+
+.message-list {
+    background: rgba(60, 60, 60, 0.4);
+    border-radius: 15px;
+    padding: 30px;
+    font-size: 0.80rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    max-width: 500px;
+    width: 90%; /* Change from 100% to 90% */
+    justify-content: flex-start;
+    align-items: stretch;
+    margin: 0 auto; /* Add this to center the container */
+    max-height: 400px; /* Scrolls only when messages exceed this height */
+    flex-direction: column; 
+    height: 400px;
+    overflow-y: auto;
+    gap: 12px;
+}
+
+.message-item {
+    line-height: 1.4;
+    color: #333; /* Change text color to dark for better readability on white background */
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
+    width: 100%; /* Make full width of container */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.thoughts-list {
+    list-style: none;
+    font-size: 0.85rem;
+    max-width: 90%;
+    max-height: 80%; /* Increase from 60% to 80% */
+    flex: 1;
+    background: rgba(60, 60, 60, 0.4);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 auto;
+    overflow-y: auto; /* Add scrolling for overflow */
+}
+
+.thoughts-list li {
+    margin: 15px 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    position: relative;
+    padding-left: 20px;
+}
+
+.thoughts-list li::before {
+    content: '♡';
+    position: absolute;
+    left: 0;
+    color: #ff8e8e;
+}
+
+.page[data-page="8"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.moment-text {
+    background: rgba(60, 60, 60, 0.4);
+    border-radius: 15px;
+    padding: 30px;
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 auto 20px auto;
+    max-width: 600px;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+
+.moment-photo {
+    width: 400px;
+    max-width: 90%;
+    background: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 auto 30px auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.moment-photo img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    object-fit: contain;
+    object-position: center;
+}
+
+
+/* Navigation */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.nav-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.nav-arrow.left {
+    left: 20px;
+}
+
+.nav-arrow.right {
+    right: 20px;
+}
+
+.nav-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.nav-arrow:disabled:hover {
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.page-indicator {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cover-page h1 {
+        font-size: 2.5rem;
+    }
+    
+    .cover-page .subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .polaroid-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .calendar-grid {
+        gap: 5px;
+    }
+    
+    .calendar-day {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+}
