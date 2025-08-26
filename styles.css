@@ -63,7 +63,7 @@ html, body {
 }
 
 body {
-    background-image: url('photos/iloveyou-background.jpg');
+    background-image: url('./iloveyou-background.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
